@@ -21,3 +21,4 @@ print(v)
 end)
 Preview:CreateSlider(16, 500, "Slider Info", function(val)
 game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = val
+end)
