@@ -1,0 +1,280 @@
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vision-Software-LLC/Vision-UI/main/source"))()
+local utils = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vision-Software-LLC/scripts/main/utils/source.lua"))()
+
+local icons = Library:Icons()
+
+local window = Library:CreateWindow({
+	PrimaryColor = Color3.fromRGB(35, 35, 35), -- Defualt is 35, 35, 35
+	SecondaryColor = Color3.fromRGB(40, 40, 40), -- Defualt is 40, 40, 40
+	FooterColor = Color3.fromRGB(45, 45, 45), -- Defualt is 45, 45, 45
+	Title = "Vision UI", -- Defualt is "Vision UI"
+	TitleSize = 16, -- Defualt is 16
+
+	ToggleBind = "RightShift", -- Enum.KeyCode.RightShift (Just put in key of keycode)
+	SkipStartup = true,
+	Footer = true,
+
+	Callback = function()
+		print("Window Close Callback")
+	end
+})
+
+
+local Home = window:CreateTab({
+	Text = "Home",
+	Icon = icons.FluentIcons.Home,
+	CanvasSize = 2,
+	Default = true
+}) -- Text, Icon, CanvasSize, Default
+
+Home:CreateButton({
+	Text = "Cycle/Create Notifications",
+	Callback = function()
+		Library:Notification({
+			Text = "Hello number",
+			ShowIndex = true
+		})
+	end
+}) -- Text, callback
+Home:CreateSlider({
+	Text = "Slider",
+	ValueName = "studs/s",
+	Min = 0,
+	Max = 60,
+	Step = 1, -- Increment
+	Default = 16,
+	Round = false,
+	Callback = function(value)
+		print("Slider Value: " .. value)
+	end
+}) -- Text, callback, scale, default
+Home:CreateKeybind({
+	Text = "Keybind",
+	Default = "F",
+	Callback = function(held,keycode)
+		print("Keybind Held: "..tostring(held))
+	end
+}) -- Text, key, callback
+Home:CreateColorPicker({
+	Text = "Color Picker",
+	Default = Color3.fromRGB(2, 255, 255),
+	Callback = function(color)
+		print("HSV: "..tostring(color)) -- For rgb just multiply by 255
+	end
+}) -- Text, default, callback
+Home:CreateLabel({
+	Text = "Label Example: Spacing Below",
+}) -- Text
+
+Home:CreateSpacing({
+	Size = 1, -- 1 = 1 buttons size of spacing, 2 = 2 buttons size of spacing, etc.
+}) -- Size
+
+Home:CreateInput({
+	Text = "Input",
+	ValueOnly = true,
+	Callback = function(input)
+		print("Input: "..input)
+	end
+}) -- Text, ValueOnly, callback
+Home:CreateToggle({
+	Text = "Toggle",
+	Default = false,
+	Callback = function(state)
+		print("Toggle: "..tostring(state))
+	end
+}) -- Text, default, callback
+Home:CreateDropdown({
+	Text = "Dropdown",
+	MultiSelect = false,
+	Selections = {"Option 1", "Option 2", "Option"},
+	Default = 0,
+	Callback = function(selection)
+		print("Dropdown: "..selection)
+	end
+})
+
+Home:NestedDropdown({
+	Text = "Nested Dropdown",
+	Selections = {"Option 1", {"Nested Option 1", "Nested Option 2"}, "Option 2"},
+	Default = 1,
+	Callback = function(selection)
+		print("Selection Table:")
+		for i,v in pairs(selection) do
+			print(v)
+		end
+	end
+})
+
+
+
+
+
+
+
+
+
+
+
+local Aimbot = window:CreateTab({
+	Text = "Aimbot",
+	Icon = icons.FluentIcons.Aimbot,
+	Default = false
+})
+Aimbot:CreateButton({
+	Text = "Aimbot",
+	Callback = function()
+		print("Aimbot Button Clicked")
+	end
+})	
+
+local Visuals = window:CreateTab({
+	Text = "Visuals",
+	Icon = icons.FluentIcons.Visuals,
+	Default = false
+})
+Visuals:CreateButton({
+	Text = "Visuals",
+	Callback = function()
+		print("Visuals Button Clicked")
+	end
+})
+
+local Player = window:CreateTab({
+	Text = "Player",
+	Icon = icons.FluentIcons.Player,
+	Default = false
+})
+
+Player:CreateButton({
+	Text = "Player",
+	Callback = function()
+		print("Player Button Clicked")
+	end
+})
+
+local InfoTab = window:CreateTab({ Text = "Info", Icon = icons.FluentIcons.Credits, CanvasSize = 1, Default = false })
+InfoTab:CreateLabel({
+    Text = "Vision Library Version: " .. Library:GetVersion()
+})
+InfoTab:CreateLabel({ 
+    Text = "Vision Utilities Version: " .. utils.Version
+})
+InfoTab:CreateLabel({ 
+    Text = "Executor: " .. utils:GetExecutor()
+})
+
+local userDrop = InfoTab:CreateDropdown({ 
+    Text = "User Info", 
+    MultiSelect = false, 
+    Selections = {"t"}, 
+    Default = 1, 
+    Callback = function(t) 
+    
+    end
+})
+
+local PerfInfo = "FPS"
+local perfDrop = InfoTab:CreateDropdown({ 
+    Text = "Perfomance Info", 
+    MultiSelect = false, 
+    Selections = {'FPS', 'Ping', 'Memory Usage'}, 
+    Default = 1, 
+    Callback = function(t) 
+        PerfInfo = t
+    end
+})
+
+local fpsCounter = InfoTab:CreateLabel({
+	Text = 'Average FPS: ' .. utils.Stats.FPS
+})
+
+
+
+local Misc = window:CreateTab({
+	Text = "Misc",
+	Icon = icons.FluentIcons.Misc,
+	Default = false
+})
+Misc:CreateButton({
+	Text = "Misc",
+	Callback = function()
+		print("Misc Button Clicked")
+	end
+})
+
+for i=1,12 do
+	window:CreateSpacing() -- lol
+end
+
+window:SettingsTab({
+	Visible = true,
+	CanvasSize = 2,
+	Text = "Settings",
+	Icon = icons.FluentIcons.Settings,
+	EnabledSettings = {
+		PrimaryColor = true,
+		SecondaryColor = true,
+		FooterColor = true,
+		ButtonBorderColor = true,
+		TextColor = true,
+		CheckboxColor = true,
+		SelectorColor = true,
+		SliderPrimaryColor = true,
+		SliderBackgroundColor = true,
+		InputBoxBackgroundColor = true,
+		DropdownUnselectedColor = true,
+		SeparatorColor = true
+	}
+})
+
+
+
+SettingsTab:CreateLabel({
+	Text = "Settings Tab Custom Labels and Buttons Example",
+})
+
+SettingsTab:CreateKeybind({
+	Text = "Toggle GUI Keybind",
+	Default = "RightShift",
+	Callback = function(held,keycode)
+		window:ChangeToggleBind({
+			NewBind = string.split(tostring(keycode),".")[3]
+		})
+	end
+})
+
+local function notify(text, icon, showindex)
+    text = text or "An error has occured:\nPlease report this to the developer."
+    icon = icon or icons.FluentIcons.Credits
+    showindex = showindex or false
+    local notif = Library:Notification({
+        Text = text,
+        Icon = icon,
+        ShowIndex = showindex
+    })
+    return notif
+end
+
+
+utils:Try(function() notify("Vision Successfully Loaded!", icons.NotificationIcons.Success) end, "notify", true)
+
+coroutine.wrap(function()
+    repeat
+        wait(0.4)
+        if PerfInfo == "FPS" then
+            fpsCounter:SetText('Average FPS: '..utils.Stats.FPS)
+        elseif PerfInfo == "Ping" then
+            fpsCounter:SetText('Average Ping: '..utils.Stats.Ping)
+        elseif PerfInfo == "Memory Usage" then
+            fpsCounter:SetText('Average Memory Usage: '..utils.Stats.Memory)
+        end
+    until not getgenv().visionlive
+end)()
+
+coroutine.wrap(function()
+    repeat
+        wait(1)
+        userDrop:SetTable({'Username: ' .. utils.Username, 'Display Name: ' .. utils.Displayname, 'User ID: ' .. utils.UserId, 'Account Age: ' .. utils.Age .. ' day(s)', 'Client Uptime: ' .. utils.Uptime.Formatted})
+    until not getgenv().visionlive
+end)()
